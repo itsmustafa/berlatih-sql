@@ -1,0 +1,102 @@
+
+Setting environment for using XAMPP for Windows.
+Khairul Mustafa@ACER-E5476G c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 22
+Server version: 10.4.13-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database myshop;
+Query OK, 1 row affected (0.005 sec)
+
+MariaDB [(none)]> use myshop;
+Database changed
+MariaDB [myshop]> create table users (id int primary key auto_increment, name varchar(255), email varchar(255), password varchar(255));
+Query OK, 0 rows affected (0.025 sec)
+
+MariaDB [myshop]> create table items (id int primary key auto_increment, name varchar(255), description varchar(255), price int, stock int, category_id int);
+Query OK, 0 rows affected (0.030 sec)
+
+MariaDB [myshop]> create table categories (id int primary key auto_increment, name varchar(255));
+Query OK, 0 rows affected (0.024 sec)
+
+MariaDB [myshop]> alter table items add foreign key (category_id) references categories(id);
+Query OK, 0 rows affected (0.057 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [myshop]> insert into users values ('', 'John Doe', 'john@doe.com', 'john123');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> insert into users values ('', 'Jane Doe', 'jane@doe.com', 'jenita123');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> insert into categories values ('', 'gadget');
+Query OK, 1 row affected, 1 warning (0.004 sec)
+
+MariaDB [myshop]> insert into categories values ('', 'cloth');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> insert into categories values ('', 'men');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> insert into categories values ('', 'women');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> insert into categories values ('', 'branded');
+Query OK, 1 row affected, 1 warning (0.003 sec)
+
+MariaDB [myshop]> insert into items values ('', 'Sumsang b50', 'hape keren dari merek sumsang', 4000000, 100, 1);
+Query OK, 1 row affected, 1 warning (0.003 sec)
+
+MariaDB [myshop]> insert into items values ('', 'Uniklooh', 'baju keren dari brand ternama', 500000, 50, 2);
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> insert into items values ('', 'IMHO Watch', 'jam tangan anak yang jujur banget', 2000000, 10, 1);
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [myshop]> select name, email from users;
++----------+--------------+
+| name     | email        |
++----------+--------------+
+| John Doe | john@doe.com |
+| Jane Doe | jane@doe.com |
++----------+--------------+
+2 rows in set (0.000 sec)
+
+MariaDB [myshop]> select * from items where price >= 1000000;
++----+-------------+-----------------------------------+---------+-------+-------------+
+| id | name        | description                       | price   | stock | category_id |
++----+-------------+-----------------------------------+---------+-------+-------------+
+|  1 | Sumsang b50 | hape keren dari merek sumsang     | 4000000 |   100 |           1 |
+|  3 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 |
++----+-------------+-----------------------------------+---------+-------+-------------+
+2 rows in set (0.000 sec)
+
+MariaDB [myshop]> select * from items where name like '%watch%';
++----+------------+-----------------------------------+---------+-------+-------------+
+| id | name       | description                       | price   | stock | category_id |
++----+------------+-----------------------------------+---------+-------+-------------+
+|  3 | IMHO Watch | jam tangan anak yang jujur banget | 2000000 |    10 |           1 |
++----+------------+-----------------------------------+---------+-------+-------------+
+1 row in set (0.000 sec)
+
+MariaDB [myshop]> select items.*, categories.name as category from items inner join categories on items.category_id=categories.id;
++----+-------------+-----------------------------------+---------+-------+-------------+----------+
+| id | name        | description                       | price   | stock | category_id | category |
++----+-------------+-----------------------------------+---------+-------+-------------+----------+
+|  1 | Sumsang b50 | hape keren dari merek sumsang     | 4000000 |   100 |           1 | gadget   |
+|  2 | Uniklooh    | baju keren dari brand ternama     |  500000 |    50 |           2 | cloth    |
+|  3 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 | gadget   |
++----+-------------+-----------------------------------+---------+-------+-------------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [myshop]> update items set price = 2500000 where name = "Sumsang b50";
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [myshop]>
